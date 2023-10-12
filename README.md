@@ -1,1 +1,1 @@
-# Semaphore
+# Semaphore implementation in python
