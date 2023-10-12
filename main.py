@@ -69,4 +69,5 @@ MySemaphore.Proberen(sampling, MyBufferSize, MySamplingPeriod)
 active = False
 
 plt.pause(40)
+plt.close()
 ###########################################
