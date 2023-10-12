@@ -30,8 +30,12 @@ class Semaphore:
             process, *args = self.queue.pop(0)
             self.value -= 1
             self.lock.release()
-            _thread.start_new_thread(self._wrapper, (process, args))
-
+            try:
+                _thread.start_new_thread(self._wrapper, (process, args))
+            except Exception as e:
+                print("Error: unable to start thread")
+                print(e)
+                self.Verhogen()
         else:
             self.value += 1
             self.lock.release()

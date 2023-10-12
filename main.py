@@ -6,7 +6,7 @@ import _thread
 
 
 def sampling(bufferSize = 256, sampling_period = 0.0016):
-   
+    
     #create a sine wave using time as the x-axis
     Y = bufferSize*[0]
     for i in range(bufferSize):
@@ -18,6 +18,7 @@ def sampling(bufferSize = 256, sampling_period = 0.0016):
         
     MySemaphore.Proberen(filtering, Y)
     MySemaphore.Proberen(sampling, MyBufferSize, MySamplingPeriod)
+    
     return None
 
 def filtering(buffer):
