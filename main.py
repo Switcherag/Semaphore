@@ -45,29 +45,28 @@ def display_update(Semaphore, buffer):
 
     plt.draw()
          
+if __name__ == "__main__":
 
-##############  Main section ############# 
-MySemaphore = Semaphore(3)
-active = True
-MyBufferSize = 64
-MySamplingPeriod = 0.0016
-MyFrameNumber = 10
-display_init = False
+    MySemaphore = Semaphore(3)
+    active = True
+    MyBufferSize = 64
+    MySamplingPeriod = 0.0016
+    MyFrameNumber = 10
+    display_init = False
 
-plt.ion()
-maxT = MySamplingPeriod * MyBufferSize * MyFrameNumber
-SamplesNumber = MyBufferSize * MyFrameNumber
-x = np.linspace(0, maxT, SamplesNumber)
-data = np.zeros(SamplesNumber)
-line, = plt.plot(x, data)
-plt.ylim(-1.5, 1.5)
-plt.show()
+    plt.ion()
+    maxT = MySamplingPeriod * MyBufferSize * MyFrameNumber
+    SamplesNumber = MyBufferSize * MyFrameNumber
+    x = np.linspace(0, maxT, SamplesNumber)
+    data = np.zeros(SamplesNumber)
+    line, = plt.plot(x, data)
+    plt.ylim(-1.5, 1.5)
+    plt.show()
 
 
-#start the sampling thread
-MySemaphore.Proberen(sampling, MySemaphore, MyBufferSize, MySamplingPeriod)
-active = False
+    #start the sampling thread
+    MySemaphore.Proberen(sampling, MySemaphore, MyBufferSize, MySamplingPeriod)
+    active = False
 
-plt.pause(40)
-plt.close()
-###########################################
+    plt.pause(40)
+    plt.close()
