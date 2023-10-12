@@ -5,7 +5,7 @@ import numpy as np
 import _thread
 
 
-def sampling(bufferSize = 256, sampling_period = 0.0016):
+def sampling(Semaphore,bufferSize = 256, sampling_period = 0.0016):
     
     #create a sine wave using time as the x-axis
     Y = bufferSize*[0]
@@ -16,27 +16,26 @@ def sampling(bufferSize = 256, sampling_period = 0.0016):
         y = (usec - int(usec)) * 2 * 3.14159
         Y[i] = np.sin(y)
         
-    MySemaphore.Proberen(filtering, Y)
-    MySemaphore.Proberen(sampling, MyBufferSize, MySamplingPeriod)
+    Semaphore.Proberen(filtering,Semaphore, Y)
+    Semaphore.Proberen(sampling,Semaphore, bufferSize, sampling_period)
     
     return None
 
-def filtering(buffer):
+def filtering(Semaphore, buffer):
     #emulate a diode
     for i in range(len(buffer)):
         if buffer[i] < 0:
             buffer[i] = 0
     
-    MySemaphore.Proberen(display_update, buffer)
+    Semaphore.Proberen(display_update,Semaphore,  buffer)
     
     return None
 
       
     
-def display_update(buffer):
+def display_update(Semaphore, buffer):
     
-    plt.title("Thread count :" + str(_thread._count()) + " Main thread active: " + str(active))
-
+    plt.title("Thread count : " + str(_thread._count()) +" | Semaphore count : " + str(Semaphore.value) + " | Main thread active: " + str(active))
     global data
     #shift the data by the current buffer
     data = np.roll(data, -len(buffer))
@@ -66,7 +65,7 @@ plt.show()
 
 
 #start the sampling thread
-MySemaphore.Proberen(sampling, MyBufferSize, MySamplingPeriod)
+MySemaphore.Proberen(sampling, MySemaphore, MyBufferSize, MySamplingPeriod)
 active = False
 
 plt.pause(40)

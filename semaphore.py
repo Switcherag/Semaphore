@@ -1,5 +1,6 @@
 #class Semaphore
 import _thread
+import time
 
 class Semaphore:
     def __init__(self, initial):
@@ -16,31 +17,22 @@ class Semaphore:
                 print("Le programme court derrière")
         else:
             self.value -= 1
-            self.lock.release()
-            
-            try:
-                _thread.start_new_thread(self._wrapper, (process, args))           
-            except Exception as e:
-                print("Error: unable to start thread")
-                print(e)
-                self.Verhogen()
+            self.lock.release()  
+            _thread.start_new_thread(self._wrapper, (process, args))           
+
     def Verhogen(self):
         self.lock.acquire()
         if (len(self.queue) > 0):
             process, *args = self.queue.pop(0)
             self.value -= 1
             self.lock.release()
-            try:
-                _thread.start_new_thread(self._wrapper, (process, args))
-            except Exception as e:
-                print("Error: unable to start thread")
-                print(e)
-                self.Verhogen()
-        else:
+            _thread.start_new_thread(self._wrapper, (process, args))
+        else:       
             self.value += 1
             self.lock.release()
     
     def _wrapper(self, process, args):
-        
-        process(*args)
+        process(*args)        
         self.Verhogen()
+        _thread.exit()
+        
