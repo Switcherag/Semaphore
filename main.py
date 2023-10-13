@@ -42,7 +42,7 @@ def filtering(Semaphore, buffer, v = 0.006):
     
 def display_update(Semaphore, buffer):
     
-    plt.title("Thread mean : " + str(round(Semaphore.thread_sum/Semaphore.pass_count,3)) +" | Semaphore mean count : " + str(round(Semaphore.value_sum/Semaphore.pass_count,3)) + " | Main thread active: " + str(active))
+    plt.title("Thread mean : " + str(round(Semaphore.thread_sum/Semaphore.pass_count,3)) +" | Semaphore mean count : " + str(round(process_number - Semaphore.value_sum/Semaphore.pass_count,3)) + " | Main thread active: " + str(active))
 
     global data
     #shift the data by the current buffer
@@ -56,12 +56,13 @@ def display_update(Semaphore, buffer):
          
 if __name__ == "__main__":
 
-    MySemaphore = Semaphore(3)
-    active = True
-    MyBufferSize = 128
-    MySamplingPeriod = 0.0016
-    MyFrameNumber = 10
-    display_init = False
+    process_number = 2 #number of max processes to run
+    MySemaphore = Semaphore(process_number)
+    active = True #main thread active
+    MyBufferSize = 128 #number of samples to take
+    MySamplingPeriod = 0.0016 #sampling period in seconds
+    MyFrameNumber = 10 #number of frames to display
+    display_init = False #display has been initialized
 
     plt.ion()
     maxT = MySamplingPeriod * MyBufferSize * MyFrameNumber
