@@ -34,13 +34,13 @@ def filtering(Semaphore, buffer, v = 0.006):
         if - diff > v:
             buffer[j] = buffer[j-1] - v
 
-    Semaphore.Proberen(display_update_filtering,Semaphore,  buffer)
+    Semaphore.Proberen(display_update,Semaphore,  buffer)
     
     return None
 
       
     
-def display_update_filtering(Semaphore, buffer):
+def display_update(Semaphore, buffer):
     
     plt.title("Thread mean : " + str(round(Semaphore.thread_sum/Semaphore.pass_count,3)) +" | Semaphore mean count : " + str(round(Semaphore.value_sum/Semaphore.pass_count,3)) + " | Main thread active: " + str(active))
 
