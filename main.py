@@ -21,12 +21,19 @@ def sampling(Semaphore,bufferSize = 256, sampling_period = 0.0016):
 
     return None
 
-def filtering(Semaphore, buffer):
+def filtering(Semaphore, buffer, v = 0.006):
     #emulate a diode
     for i in range(len(buffer)):
         if buffer[i] < 0:
             buffer[i] = 0
     
+    #emulate capacitor to load the compute time
+    for j in range(1,len(buffer)):
+        diff = buffer[j] - buffer[j-1]
+        abs = np.abs(diff)
+        if - diff > v:
+            buffer[j] = buffer[j-1] - v
+
     Semaphore.Proberen(display_update_filtering,Semaphore,  buffer)
     
     return None
